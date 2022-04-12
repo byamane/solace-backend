@@ -18,6 +18,12 @@ def create():
   return jsonify(sleep.serialize()), 201
 
 @sleepLogs.route('/', methods=['GET'])
+@login_required
 def index():
-  sleepLogs = Sleep.query.all()
+  profile = read_token(request)
+  prof_id = profile['id']
+  print(f'PROFILE id, {prof_id}')
+  # sleepLogs = Sleep.query.all()
+  sleepLogs = Sleep.query.filter_by(profile_id=prof_id).all()
+  print(f'SLEEPLOGS, {sleepLogs}')
   return jsonify([sleep.serialize() for sleep in sleepLogs]), 200
