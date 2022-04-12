@@ -8,10 +8,12 @@ from config import Config
 from api.models.user import User
 from api.models.profile import Profile
 from api.models.sleep import Sleep
+from api.models.journal import Journal
 
 # ============ Import Views ============
 from api.views.auth import auth
 from api.views.sleepLogs import sleepLogs
+from api.views.journalEntries import journalEntries
 
 cors = CORS()
 migrate = Migrate() 
@@ -27,7 +29,8 @@ def create_app(config):
 
   # ============ Register Blueprints ============
   app.register_blueprint(auth, url_prefix='/api/auth') 
-  app.register_blueprint(sleepLogs, url_prefix='/api/sleep') 
+  app.register_blueprint(sleepLogs, url_prefix='/api/sleep')
+  app.register_blueprint(journalEntries, url_prefix='/api/journal')
 
 
   return app
