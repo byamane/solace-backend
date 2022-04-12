@@ -18,6 +18,11 @@ def create():
   return jsonify(journal.serialize()), 201
 
 @journalEntries.route('/', methods=['GET'])
+@login_required
 def index():
-  journalEntries = Journal.query.all()
+  profile = read_token(request)
+  prof_id = profile['id']
+  print(f'PROFILE id, {prof_id}')
+  journalEntries = Journal.query.filter_by(profile_id=prof_id).all()
+  print(f'JOURNALENTRIES, {journalEntries}')
   return jsonify([journal.serialize() for journal in journalEntries]), 200
