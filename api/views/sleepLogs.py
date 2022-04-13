@@ -13,6 +13,7 @@ def create():
   profile = read_token(request)
   data['profile_id'] = profile['id']
   sleep = Sleep(**data)
+  print(f'SLEEP INFO!', sleep)
   db.session.add(sleep)
   db.session.commit()
   return jsonify(sleep.serialize()), 201
@@ -22,10 +23,10 @@ def create():
 def index():
   profile = read_token(request)
   prof_id = profile['id']
-  print(f'PROFILE id, {prof_id}')
+  # print(f'PROFILE id, {prof_id}')
   # sleepLogs = Sleep.query.all()
   sleepLogs = Sleep.query.filter_by(profile_id=prof_id).all()
-  print(f'SLEEPLOGS, {sleepLogs}')
+  # print(f'SLEEPLOGS, {sleepLogs}')
   return jsonify([sleep.serialize() for sleep in sleepLogs]), 200
 
 @sleepLogs.route('/<id>', methods=['PUT'])
