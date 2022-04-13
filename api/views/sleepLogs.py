@@ -27,3 +27,33 @@ def index():
   sleepLogs = Sleep.query.filter_by(profile_id=prof_id).all()
   print(f'SLEEPLOGS, {sleepLogs}')
   return jsonify([sleep.serialize() for sleep in sleepLogs]), 200
+
+@sleepLogs.route('/<id>', methods=['PUT'])
+@login_required
+def update(id):
+  data = request.get_json()
+  profile = read_token(request)
+  sleep = Sleep.query.filter_by(id=id).first()
+
+  if sleep.profile_id != profile['id']:
+    return 'Forbidden', 403
+  
+  for key in data:
+    setattr(sleep, key, data[key])
+  
+  db.session.commit()
+  return jsonify(sleep.serialize()), 200
+
+
+@sleepLogs.route('/<id>', methods=['DELETE'])
+@login_required
+def delete(id):
+  profile = read_token(request)
+  sleep = Sleep.query.filter_by(id=id).first()
+
+  if sleep.profile_id != profile['id']:
+    return 'Forbidden', 403
+  
+  db.session.delete(sleep)
+  db.session.commit()
+  return jsonify(message='Success'), 200
