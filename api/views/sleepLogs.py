@@ -13,7 +13,6 @@ def create():
   profile = read_token(request)
   data['profile_id'] = profile['id']
   sleep = Sleep(**data)
-  print(f'SLEEP INFO!', sleep)
   db.session.add(sleep)
   db.session.commit()
   return jsonify(sleep.serialize()), 201
