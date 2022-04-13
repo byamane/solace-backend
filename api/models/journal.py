@@ -5,7 +5,8 @@ class Journal(db.Model):
   __tablename__= 'journal_entries'
   id = db.Column(db.Integer, primary_key=True)
   name = db.Column(db.String(100))
-  mood = db.Column(db.Integer, default=3)
+  date = db.Column(db.DateTime, default=datetime.utcnow)
+  mood = db.Column(db.Integer, default=2)
   journal = db.Column(db.String())
   created_at = db.Column(db.DateTime, default=datetime.utcnow)
   profile_id = db.Column(db.Integer, db.ForeignKey('profiles.id'))
