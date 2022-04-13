@@ -43,3 +43,17 @@ def update(id):
   
   db.session.commit()
   return jsonify(sleep.serialize()), 200
+
+
+@sleepLogs.route('/<id>', methods=['DELETE'])
+@login_required
+def delete(id):
+  profile = read_token(request)
+  sleep = Sleep.query.filter_by(id=id).first()
+
+  if sleep.profile_id != profile['id']:
+    return 'Forbidden', 403
+  
+  db.session.delete(sleep)
+  db.session.commit()
+  return jsonify(message='Success'), 200
