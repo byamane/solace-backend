@@ -22,10 +22,10 @@ def create():
 def index():
   profile = read_token(request)
   prof_id = profile['id']
-  print(f'PROFILE id, {prof_id}')
+  # print(f'PROFILE id, {prof_id}')
   # sleepLogs = Sleep.query.all()
   sleepLogs = Sleep.query.filter_by(profile_id=prof_id).all()
-  print(f'SLEEPLOGS, {sleepLogs}')
+  # print(f'SLEEPLOGS, {sleepLogs}')
   return jsonify([sleep.serialize() for sleep in sleepLogs]), 200
 
 @sleepLogs.route('/<id>', methods=['PUT'])
