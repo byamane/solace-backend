@@ -22,9 +22,7 @@ def create():
 def index():
   profile = read_token(request)
   prof_id = profile['id']
-  print(f'PROFILE id, {prof_id}')
   journalEntries = Journal.query.filter_by(profile_id=prof_id).all()
-  print(f'JOURNALENTRIES, {journalEntries}')
   return jsonify([journal.serialize() for journal in journalEntries]), 200
 
 @journalEntries.route('/<id>', methods=["PUT"])
